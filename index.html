@@ -1,1 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags and SEO same as before -->
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #f472b6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 50;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Tool Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .tool-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--light);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Compression Tool */
+        .compression-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.75rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        /* Range Slider */
+        .range-container {
+            margin: 2rem 0;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Ad Sections */
+        .ad-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Feature Banner */
+        .feature-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-banner h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            50% { opacity: 0.5 }
+        }
+
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <i class="fas fa-tools"></i>
+                ToolKit Pro
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search tools..." class="search-input">
+                <button class="btn"><i class="fas fa-search"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Feature Banner -->
+        <section class="feature-banner">
+            <h2>Transform Your Files Effortlessly</h2>
+            <p>Convert, compress, and edit images & PDFs in seconds</p>
+        </section>
+
+        <!-- Image Compression Tool -->
+        <section class="compression-section">
+            <h2><i class="fas fa-file-image"></i> Image Compressor</h2>
+            <div class="upload-area" id="dropZone">
+                <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                <p class="upload-text">Drag & drop files or <span class="text-primary">browse</span></p>
+                <input type="file" id="fileInput" hidden>
+            </div>
+            
+            <div class="range-container">
+                <label>Compression Quality: <span id="qualityValue">75%</span></label>
+                <input type="range" class="slider" min="0" max="1" step="0.1" value="0.75">
+            </div>
+
+            <button class="btn btn-lg">
+                <i class="fas fa-compress"></i>
+                Compress Now
+            </button>
+        </section>
+
+        <!-- Tools Grid -->
+        <section class="featured-tools">
+            <h2 class="section-title">Popular Tools</h2>
+            <div class="tools-grid">
+                <!-- Tool Card -->
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-file-pdf fa-2x"></i>
+                    </div>
+                    <h3>PDF to Word Converter</h3>
+                    <p>Convert PDF documents to editable Word files</p>
+                    <button class="btn btn-sm mt-2">
+                        Use Tool
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <span class="tool-badge">New</span>
+                </div>
+
+                <!-- Repeat similar cards for other tools -->
+            </div>
+        </section>
+
+        <!-- Ad Section -->
+        <div class="ad-section">
+            <!-- Google AdSense placeholder -->
+            <div class="ad-placeholder">Advertisement</div>
+        </div>
+
+        <!-- Category Sections -->
+        <section class="categories">
+            <h2 class="section-title">Tool Categories</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <i class="fas fa-image"></i>
+                    <h3>Image Tools</h3>
+                    <ul>
+                        <li>Compressor</li>
+                        <li>Converter</li>
+                        <li>Resizer</li>
+                    </ul>
+                </div>
+                <!-- Add more categories -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>ToolKit Pro</h4>
+                    <p>Your all-in-one solution for digital file management</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li>Privacy Policy</li>
+                        <li>Terms of Service</li>
+                        <li>Cookie Policy</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2023 ToolKit Pro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Drag & Drop Functionality
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = '#cbd5e1';
+        });
+
+        // Update quality display
+        document.querySelector('.slider').addEventListener('input', (e) => {
+            document.getElementById('qualityValue').textContent = 
+                `${Math.round(e.target.value * 100)}%`;
+        });
+    </script>
+</body>
+</html>
